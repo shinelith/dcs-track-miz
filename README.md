@@ -16,13 +16,19 @@
 * 在DTM目录空白处按Shift + 右键，选择`在此处打开Powershell窗口`
 * 输入以命令，并回车
 
-### 转换trk为miz
+### 转换 trk为miz 保留track并自动播放
 
 ```bash
 node dtm.js convert XXX.trk
 ```
 
-### 合并trk到miz
+### 转换 trk为miz 清理掉track
+
+```bash
+node dtm.js convert -c XXX.trk
+```
+
+### 提取trk中的track合入miz
 
 ``` bash
 node dtm.js merge XXX.trk XXX.miz
@@ -36,7 +42,7 @@ node dtm.js clearn XXX.trk
 node dtm.js clearn XXX.miz
 ```
 
-### 输出目录
+### 指定输出目录
 
 默认在DTM中的output文件夹，可使用--output参数指定输出目录
 
@@ -44,7 +50,7 @@ node dtm.js clearn XXX.miz
 node dtm.js convert test.trk -o KA50
 ```
 
-### 动画录制方法
+### Track动画录制方法
 
 * 使用任务编辑器编辑任务
 * 创建多人游戏服务器，加载任务，并确保默认为暂停状态
