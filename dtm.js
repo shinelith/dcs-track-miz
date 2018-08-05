@@ -15,7 +15,7 @@ var outputPath = "output/";
  * @param {*} trkFile 
  * @param {*} outputPath 
  */
-function convert(trkFile, outputPath) {
+function convert(trkFile, outputPath, option) {
     async.waterfall([
         function (callback) {
             if (trkFile == undefined) {
@@ -31,9 +31,14 @@ function convert(trkFile, outputPath) {
                     return;
                 }
                 jszip.loadAsync(data).then(function (zip) {
-                    zip.remove("track/net");
-                    zip.remove("track_data/network_header");
-                    zip.folder("track_data").file("continue_track", "1");
+                    if (option.clean) {
+                        zip.remove("track");
+                        zip.remove("track_data");
+                    } else {
+                        zip.remove("track/net");
+                        zip.remove("track_data/network_header");
+                        zip.folder("track_data").file("continue_track", "1");
+                    }                   
                     var content = zip.generateAsync({
                         compression: "DEFLATE",
                         compressionOptions: {
@@ -263,10 +268,11 @@ program
 program
     .version('0.0.1')
     .command('convert <trk>')
+    .option('-c, --clean','remove track data')
     .description('conver trk to miz and keep the track')
-    .action(function (trk) {
+    .action(function (trk, option) {
         initEnv();
-        convert(trk, outputPath);
+        convert(trk, outputPath, option);
     });
 
 program
